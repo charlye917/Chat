@@ -9,22 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat">
-        <activity android:name=".activities.ForgotPasswordActivity"
+        <activity android:name="com.charlye934.chat.activities.ForgotPasswordActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name="com.charlye934.chat.activities.SignUpActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.charlye934.chat.activities.LoginActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name="com.charlye934.chat.MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

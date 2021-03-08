@@ -1,14 +1,14 @@
-package com.example.chat.activities
+package com.charlye934.chat.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.chat.databinding.ActivitySignUpBinding
-import com.example.chat.utils.goToActivity
-import com.example.chat.utils.isValidConfirmPassword
-import com.example.chat.utils.isValidEmail
-import com.example.chat.utils.isValidPassword
+import com.charlye934.chat.utils.goToActivity
+import com.charlye934.chat.utils.isValidConfirmPassword
+import com.charlye934.chat.utils.isValidEmail
+import com.charlye934.chat.utils.isValidPassword
 import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity : AppCompatActivity() {

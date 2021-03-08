@@ -1,4 +1,4 @@
-package com.example.chat.utils
+package com.charlye934.chat.utils
 
 import android.app.Activity
 import android.content.Intent
