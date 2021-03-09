@@ -10,14 +10,17 @@ import com.example.chat.databinding.ActivityLoginBinding
 import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.utils.isValidEmail
 import com.charlye934.chat.utils.isValidPassword
+import com.example.chat.R
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val mGoogleClient: GoogleSignInOptions by { getGoogleApiClient()}
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,5 +73,15 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "An unexpected error ocurred, please try again",Toast.LENGTH_SHORT).show()
                     }
                 }
+    }
+
+    private fun getGoogleApiClient(): GoogleSignInOptions {
+        val gson = GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        return GoogleApiClient.Builder
     }
 }
