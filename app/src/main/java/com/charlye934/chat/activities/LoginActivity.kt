@@ -11,16 +11,21 @@ import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.utils.isValidEmail
 import com.charlye934.chat.utils.isValidPassword
 import com.example.chat.R
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlin.math.log
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
     private lateinit var binding: ActivityLoginBinding
-    private val mGoogleClient: GoogleSignInOptions by { getGoogleApiClient()}
+    private val mGoogleClient by lazy { getGoogleApiClient()}
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val RC_CODE_SIIGN_IN = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +46,8 @@ class LoginActivity : AppCompatActivity() {
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             }
             buttonLoginGoogle.setOnClickListener {
-
+                val sigIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleClient)
+                startActivityForResult(sigIntent, RC_CODE_SIIGN_IN)
             }
             buttonLogin.setOnClickListener { signInLogin() }
         }
@@ -75,13 +81,45 @@ class LoginActivity : AppCompatActivity() {
                 }
     }
 
-    private fun getGoogleApiClient(): GoogleSignInOptions {
+    private fun getGoogleApiClient(): GoogleApiClient? {
         val gson = GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
 
-        return GoogleApiClient.Builder
+        return GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gson)
+                .build()
+    }
+
+    private fun loginByGoogleAndFirease(googleAccount: GoogleSignInAccount){
+        val credential = GoogleAuthProvider.getCredential(googleAccount.idToken, null)
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this){
+            if(mGoogleClient!!.isConnected){
+                Auth.GoogleSignInApi.signOut(mGoogleClient)
+            }
+            goToActivity<MainActivity>{
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_CODE_SIIGN_IN){
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if(result!!.isSuccess){
+                val account = result.signInAccount
+                loginByGoogleAndFirease(account!!)
+            }
+        }
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
+        Toast.makeText(applicationContext, "Connection Failed",Toast.LENGTH_SHORT).show()
     }
 }
