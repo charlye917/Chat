@@ -12,9 +12,11 @@ import com.charlye934.chat.utils.isValidEmail
 import com.charlye934.chat.utils.isValidPassword
 import com.example.chat.R
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -96,25 +98,29 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     private fun loginByGoogleAndFirease(googleAccount: GoogleSignInAccount){
         val credential = GoogleAuthProvider.getCredential(googleAccount.idToken, null)
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this){
-            if(mGoogleClient!!.isConnected){
-                Auth.GoogleSignInApi.signOut(mGoogleClient)
-            }
-            goToActivity<MainActivity>{
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-        }
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this){
+                    if(mGoogleClient!!.isConnected){
+                        Auth.GoogleSignInApi.signOut(mGoogleClient)
+                    }
+                    goToActivity<MainActivity>{
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                }
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        Log.d("__TAG", requestCode.toString())
         if(requestCode == RC_CODE_SIIGN_IN){
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if(result!!.isSuccess){
-                val account = result.signInAccount
+            val result = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try{
+                val account = result.getResult(ApiException::class.java)
                 loginByGoogleAndFirease(account!!)
+            }catch (e: ApiException){
+                Log.d("__TAG", "Google sign in failed", e)
             }
         }
     }
