@@ -17,7 +17,7 @@ class MainEmptyActivity : AppCompatActivity() {
 
         setTheme(R.style.SplashTheme)
 
-        if(mAuth.currentUser != null){
+        if(mAuth.currentUser == null){
             goToActivity<LoginActivity>{
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
