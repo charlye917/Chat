@@ -2,6 +2,7 @@ package com.charlye934.chat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.get
 import androidx.viewpager.widget.ViewPager
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpBottomNavigationBar(){
-        binding.bottomNavigation.setOnNavigationItemReselectedListener {
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.bottom_nav_info ->{
                     binding.viewPager.currentItem = 0
@@ -75,5 +76,10 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.bottom_navigation_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }
