@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.chat.databinding.ActivitySignUpBinding
+import com.charlye934.chat.databinding.ActivitySignUpBinding
 import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.utils.isValidConfirmPassword
 import com.charlye934.chat.utils.isValidEmail

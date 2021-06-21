@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.charlye934.chat.MainActivity
 import com.charlye934.chat.utils.goToActivity
-import com.example.chat.R
+import com.charlye934.chat.R
 import com.google.firebase.auth.FirebaseAuth
 
 class MainEmptyActivity : AppCompatActivity() {

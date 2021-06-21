@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.get
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.charlye934.chat.adapters.PagerAdapter
 import com.charlye934.chat.fragment.ChatFragment
 import com.charlye934.chat.fragment.InfoFragment
 import com.charlye934.chat.fragment.RatesFragment
-import com.example.chat.R
-import com.example.chat.databinding.ActivityMainBinding
+import com.charlye934.chat.R
+import com.charlye934.chat.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

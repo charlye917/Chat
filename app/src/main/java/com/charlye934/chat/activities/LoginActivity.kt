@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.charlye934.chat.MainActivity
-import com.example.chat.databinding.ActivityLoginBinding
+import com.charlye934.chat.databinding.ActivityLoginBinding
 import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.utils.isValidEmail
 import com.charlye934.chat.utils.isValidPassword
-import com.example.chat.R
+import com.charlye934.chat.R
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 val account = result.getResult(ApiException::class.java)
                 loginByGoogleAndFirease(account!!)
             }catch (e: ApiException){
-                Log.d("__TAG", "Google sign in failed", e)
+                Log.d("__TAG", "Google sign in failed ${e.message}")
             }
         }
     }
