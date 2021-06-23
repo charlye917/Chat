@@ -3,7 +3,7 @@ package com.charlye934.chat.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.charlye934.chat.MainActivity
+import com.charlye934.chat.activities.HomeActivity
 import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.R
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +22,7 @@ class MainEmptyActivity : AppCompatActivity() {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }else{
-            goToActivity<MainActivity>{
+            goToActivity<HomeActivity>{
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             }
         }

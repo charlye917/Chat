@@ -1,18 +1,15 @@
 package com.charlye934.chat.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.charlye934.chat.models.Message
-import com.charlye934.chat.utils.CircleTransform
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.FragmentChatItemLeftBinding
 import com.charlye934.chat.databinding.FragmentChatItemRightBinding
-import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 
 class ChatAdapter(val items: ArrayList<Message>, val userId:String, val context:Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -9,6 +9,8 @@
         android:id="@+id/toolbar_generic_id"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:title="CHARLYE934"
+        app:titleTextColor="@android:color/white"
         style="@style/HeaderBar"
         android:elevation="4dp"/>
 

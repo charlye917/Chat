@@ -27,7 +27,7 @@
             android:name="com.charlye934.chat.activities.LoginActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name="com.charlye934.chat.MainActivity"
+            android:name="com.charlye934.chat.activities.HomeActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
 

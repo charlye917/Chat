@@ -10,9 +10,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.FragmentInfoBinding
+import com.charlye934.chat.models.TotalMessagesEvent
+import com.charlye934.chat.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
+import io.reactivex.rxjava3.disposables.Disposable
 
 class InfoFragment : Fragment() {
 
@@ -25,6 +28,7 @@ class InfoFragment : Fragment() {
     private lateinit var chatDBRef: CollectionReference
 
     private var chatSubscription: ListenerRegistration? = null
+    private lateinit var inofBusListener: Disposable
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +44,8 @@ class InfoFragment : Fragment() {
         setUpChatDB()
         setUpCurrentUser()
         setUpCurrentUserInforUI()
-        subscribeToTotalMessageFirebaseStyle()
+        sbuscribeToTotalMessagesEventBusReactiveStyle()
+        //subscribeToTotalMessageFirebaseStyle()
     }
 
     private fun setUpChatDB(){
@@ -69,6 +74,12 @@ class InfoFragment : Fragment() {
         }
     }
 
+    private fun sbuscribeToTotalMessagesEventBusReactiveStyle(){
+        RxBus.listen(TotalMessagesEvent::class.java).subscribe {
+            binding.textViewInfoLabelChat.text = "Total messages: ${it.total}"
+        }
+    }
+
     private fun subscribeToTotalMessageFirebaseStyle(){
         chatSubscription = chatDBRef.addSnapshotListener(object : java.util.EventListener, EventListener<QuerySnapshot>{
             override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -81,6 +92,11 @@ class InfoFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onDestroyView() {
+        chatSubscription?.remove()
+        super.onDestroyView()
     }
 
 }

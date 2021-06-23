@@ -1,5 +1,6 @@
-package com.charlye934.chat
+package com.charlye934.chat.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -12,8 +13,11 @@ import com.charlye934.chat.fragment.InfoFragment
 import com.charlye934.chat.fragment.RatesFragment
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.ActivityMainBinding
+import com.charlye934.chat.utils.goToActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var prevBottomSelected: MenuItem? = null
@@ -25,15 +29,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(findViewById(R.id.toolbar_generic_id))
+
         setUpViewPager(getPagerAdapter())
         setUpBottomNavigationBar()
 
     }
 
+    private fun getPagerAdapter(): PagerAdapter {
+        var adapter = PagerAdapter(this)
+        return adapter.apply {
+            addFragment(InfoFragment())
+            addFragment(RatesFragment())
+            addFragment(ChatFragment())
+        }
+    }
+
     private fun setUpViewPager(adapter: PagerAdapter){
         binding.viewPager.apply {
             this.adapter = adapter
-            offscreenPageLimit = adapter.itemCount
+            offscreenPageLimit = adapter.itemCount//Para evitar que se destruyan los fragments y siempre tenerlos en memoria, no es recomendable si son varios elementos
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
                 override fun onPageSelected(position: Int) {
                     if(prevBottomSelected == null){
@@ -45,15 +60,6 @@ class MainActivity : AppCompatActivity() {
                     prevBottomSelected = binding.bottomNavigation.menu.getItem(position)
                 }
             })
-        }
-    }
-
-    private fun getPagerAdapter(): PagerAdapter {
-        var adapter = PagerAdapter(this)
-        return adapter.apply {
-            addFragment(InfoFragment())
-            addFragment(RatesFragment())
-            addFragment(ChatFragment())
         }
     }
 
@@ -78,7 +84,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.bottom_navigation_menu, menu)
+        menuInflater.inflate(R.menu.general_options_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_log_out -> {
+                FirebaseAuth.getInstance()
+                    .signOut()
+                goToActivity<LoginActivity>(){
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

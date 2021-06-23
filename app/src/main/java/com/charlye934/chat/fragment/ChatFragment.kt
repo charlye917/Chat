@@ -14,6 +14,8 @@ import com.charlye934.chat.adapters.ChatAdapter
 import com.charlye934.chat.models.Message
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.FragmentChatBinding
+import com.charlye934.chat.models.TotalMessagesEvent
+import com.charlye934.chat.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -121,6 +123,7 @@ class ChatFragment : Fragment() {
                         messageList.addAll(message.asReversed())
                         adapterChat.notifyDataSetChanged()
                         binding.recyclerVew.smoothScrollToPosition(messageList.size)
+                        RxBus.publish(TotalMessagesEvent(messageList.size))
                     }
                 }
             })

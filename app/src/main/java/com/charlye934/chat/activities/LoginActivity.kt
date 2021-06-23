@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.charlye934.chat.MainActivity
+import com.charlye934.chat.activities.HomeActivity
 import com.charlye934.chat.databinding.ActivityLoginBinding
 import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.utils.isValidEmail
@@ -20,7 +20,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlin.math.log
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
@@ -71,7 +70,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         if(mAuth.currentUser!!.isEmailVerified){
-                            goToActivity<MainActivity>{
+                            goToActivity<HomeActivity>{
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
                         }else{
@@ -103,7 +102,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     if(mGoogleClient!!.isConnected){
                         Auth.GoogleSignInApi.signOut(mGoogleClient)
                     }
-                    goToActivity<MainActivity>{
+                    goToActivity<HomeActivity>{
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                 }
