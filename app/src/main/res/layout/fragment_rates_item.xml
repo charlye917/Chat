@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -33,10 +33,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="374dp"
-                android:layout_height="30dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textViewRate"
+                app:layout_constraintStart_toStartOf="@+id/textViewRate"
                 app:layout_constraintTop_toBottomOf="@+id/textViewRate">
 
                 <View
@@ -56,14 +56,14 @@
                     android:background="@drawable/ic_calendar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textViewCalendar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12 Oct 2018"
                     android:layout_marginLeft="8dp"
+                    android:text="12 Oct 2018"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewCalendar"
@@ -84,8 +84,8 @@
                     android:id="@+id/textViewStar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4.5"
                     android:layout_marginEnd="4dp"
+                    android:text="4.5"
                     android:textColor="@color/colorSecondaryText"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView"
                     app:layout_constraintEnd_toStartOf="@+id/imageView"
@@ -93,8 +93,8 @@
 
                 <ImageView
                     android:id="@+id/imageViewProfile"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_buho"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textViewStar"

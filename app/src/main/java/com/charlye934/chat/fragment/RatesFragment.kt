@@ -1,60 +1,181 @@
 package com.charlye934.chat.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.charlye934.chat.R
+import android.widget.Toast
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.charlye934.chat.adapters.RatesAdapter
+import com.charlye934.chat.databinding.FragmentRatesBinding
+import com.charlye934.chat.dialogues.RateDialog
+import com.charlye934.chat.models.NewRateEvent
+import com.charlye934.chat.models.Rates
+import com.charlye934.chat.utils.RxBus
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.*
+import io.reactivex.rxjava3.disposables.Disposable
+import java.util.*
+import java.util.EventListener
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RatesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RatesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentRatesBinding
+    private val ratesList: ArrayList<Rates> = ArrayList()
+    private lateinit var adapterRates: RatesAdapter
+
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var currentUser: FirebaseUser
+
+    private lateinit var scrollListener: RecyclerView.OnScrollListener
+
+    private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var ratesDBRef: CollectionReference
+
+    private var ratesSubscription: ListenerRegistration? = null
+    private lateinit var rateBusListener: Disposable
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rates, container, false)
+        binding = FragmentRatesBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setUpRatesDB()
+        setUpCurrentUser()
+        setUpRecyclerView()
+        setUpFab()
+
+        subscribeToNewRatigns()
+        subscribeToRatings()
+    }
+
+    private fun setUpRatesDB(){
+        ratesDBRef = store.collection("rates")
+    }
+
+    private fun setUpCurrentUser(){
+        currentUser = mAuth.currentUser!!
+    }
+
+    private fun setUpRecyclerView(){
+        val layoutManagerRates = LinearLayoutManager(context)
+        adapterRates = RatesAdapter(ratesList, context!!)
+
+        scrollListener = object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if(dy > 0 || dy < 0 && binding.fabRatting.isShown){
+                    binding.fabRatting.hide()
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    binding.fabRatting.show()
+                }
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        }
+
+        binding.recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = layoutManagerRates
+            itemAnimator = DefaultItemAnimator()
+            adapter = adapterRates
+            addOnScrollListener(scrollListener)
+        }
+    }
+
+    private fun setUpFab(){
+        binding.fabRatting.setOnClickListener {
+            RateDialog().show(fragmentManager!!, "")
+        }
+    }
+
+    private fun hasUserRated(rated: ArrayList<Rates>): Boolean{//PARA SOLO PODER ESCRIBIR UNA RESEÑA
+        var result = false
+        rated.forEach {
+            if(it.userId == currentUser.uid){
+                result = true
+            }
+        }
+
+        return result
+    }
+
+    private fun removeFABIfRated(rated: Boolean){
+        if(rated){
+            binding.fabRatting.hide()
+            binding.recyclerView.removeOnScrollListener(scrollListener)
+        }
+    }
+
+    private fun saveRate(rate: Rates){
+        val newRating = HashMap<String,Any>()
+        newRating["userId"] = rate.userId
+        newRating["text"] = rate.text
+        newRating["rate"] = rate.rate
+        newRating["createdAt"] = rate.createdAt
+        newRating["profileImgURL"] = rate.profileImgURL
+
+        ratesDBRef.add(newRating)
+            .addOnCompleteListener {
+                Toast.makeText(context, "Rating add", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener{
+                Toast.makeText(context, "Rating error, try again", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun subscribeToRatings(){
+        ratesSubscription = ratesDBRef
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .addSnapshotListener(object : EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    error?.let {
+                        Toast.makeText(context, "Exception",Toast.LENGTH_SHORT).show()
+                        return
+                    }
+
+                    value?.let {
+                        ratesList.clear()
+                        val rates = it.toObjects(Rates::class.java)
+                        ratesList.addAll(rates)
+                        removeFABIfRated(hasUserRated(ratesList))
+                        adapterRates.notifyDataSetChanged()
+                        binding.recyclerView.smoothScrollToPosition(0)//para mandar al usuario al inicio si se agrego un nuevo elemento
+                    }
+                }
+            })
+    }
+
+    private fun subscribeToNewRatigns(){
+        rateBusListener = RxBus.listen(NewRateEvent::class.java).subscribe {
+            saveRate(it.rate)
+        }
+    }
+
+    override fun onDestroy() {
+        binding.recyclerView.removeOnScrollListener(scrollListener)
+        ratesSubscription?.remove()
+        rateBusListener.dispose()
+
+        super.onDestroy()
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RatesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RatesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
     }
 }

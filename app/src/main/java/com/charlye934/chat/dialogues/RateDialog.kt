@@ -3,6 +3,8 @@ package com.charlye934.chat.dialogues
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -27,13 +29,14 @@ class RateDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         setUpCurrentUser()
-        val binding = DialogRatesBinding.inflate(layoutInflater)
+        val binding = DialogRatesBinding.inflate(LayoutInflater.from(context))
 
         return AlertDialog.Builder(context)
             .setTitle(R.string.dialog_title)
             .setView(binding.root)
             .setPositiveButton(R.string.dialog_ok){ _, _ ->
-                val textRate = binding.editTextRateFeedback.toString()
+                val textRate = binding.editTextRateFeedback.text.toString()
+
                 if(textRate.isNotEmpty()){
                     val imageUrl = currentUser.photoUrl?.toString() ?: run{""}
                     val rate = Rates(currentUser.uid, textRate, binding.ratingBarFeedback.rating, Date(),imageUrl)

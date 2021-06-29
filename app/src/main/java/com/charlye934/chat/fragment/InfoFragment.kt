@@ -75,13 +75,13 @@ class InfoFragment : Fragment() {
     }
 
     private fun sbuscribeToTotalMessagesEventBusReactiveStyle(){
-        RxBus.listen(TotalMessagesEvent::class.java).subscribe {
+        inofBusListener = RxBus.listen(TotalMessagesEvent::class.java).subscribe {
             binding.textViewInfoLabelChat.text = "Total messages: ${it.total}"
         }
     }
 
     private fun subscribeToTotalMessageFirebaseStyle(){
-        chatSubscription = chatDBRef.addSnapshotListener(object : java.util.EventListener, EventListener<QuerySnapshot>{
+         chatSubscription = chatDBRef.addSnapshotListener(object : java.util.EventListener, EventListener<QuerySnapshot>{
             override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                 error?.let {
                     Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show()
@@ -96,6 +96,7 @@ class InfoFragment : Fragment() {
 
     override fun onDestroyView() {
         chatSubscription?.remove()
+        inofBusListener.dispose()
         super.onDestroyView()
     }
 
