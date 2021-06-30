@@ -16,5 +16,5 @@
     <color name="colorGooglePlus">#DD4B39</color>
     <color name="colorGooglePlusDark">#B92D21</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
+    <color name="mtrl_textinput_default_box_stroke_color">@color/colorDivider</color>
 </resources>

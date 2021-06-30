@@ -8,6 +8,7 @@ import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.utils.isValidEmail
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.ActivityForgotPasswordBinding
+import com.charlye934.chat.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordActivity : AppCompatActivity() {

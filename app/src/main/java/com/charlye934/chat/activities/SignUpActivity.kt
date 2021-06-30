@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.charlye934.chat.databinding.ActivitySignUpBinding
+import com.charlye934.chat.login.LoginActivity
 import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.utils.isValidConfirmPassword
 import com.charlye934.chat.utils.isValidEmail
@@ -40,7 +41,7 @@ class SignUpActivity : AppCompatActivity() {
         val email = binding.editTextEmail.text.toString().trim()
         val password = binding.editTextPassword.text.toString().trim()
 
-        if(validateEmail(email) && validatePassword(password)){
+        if(isValidEmail(email) && validatePassword(password)){
             createAccount(email, password)
         }else{
             Toast.makeText(this, "Favor de llenar los correctamente", Toast.LENGTH_SHORT).show()
@@ -64,28 +65,9 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    private fun validateEmail(email: String): Boolean{
-        return if(email.isNotEmpty()) {
-            if(isValidEmail(email)){
-                binding.textInputLayoutEmail.error = null
-                true
-            }else{
-                binding.textInputLayoutEmail.error = "FAVOR DE INGRESAR UN EMAIL VALIDO"
-                false
-            }
-        }
-        else {
-            binding.textInputLayoutEmail.error = "FAVOR DE INGRESAR UN EMAIL VALIDO"
-            false
-        }
-    }
-
     private fun validatePassword(password: String,): Boolean{
         val confirmPass = binding.editTextConfirmPassword.text.toString().trim()
-            return if(password.isNotEmpty()){
-                binding.textInputLayoutPassword.error = null
-                if(isValidPassword(password)){
-                    binding.textInputLayoutPassword.error = null
+            return if(isValidPassword(password)){
                     if(isValidConfirmPassword(password, confirmPass)){
                         binding.textInputLayoutConfirmPassword.error = null
                         true
@@ -94,12 +76,8 @@ class SignUpActivity : AppCompatActivity() {
                         false
                     }
                 }else{
-                    binding.textInputLayoutPassword.error = "Favor de ingesar un password valido"
                     false
                 }
-            }else{
-                binding.textInputLayoutPassword.error = "Favor de ingesar un password valido"
-                false
             }
-        }
+
 }

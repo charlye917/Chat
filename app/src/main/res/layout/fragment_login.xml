@@ -1,14 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.fragment.LoginFragment">
+    android:background="@color/colorPrimaryDark"
+    android:fillViewport="true"
+    tools:context="com.charlye934.chat.login.LoginActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:focusableInTouchMode="true"
+        android:padding="8dp">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/ic_buho"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/LoginTextInputLayoutStyle"
+            android:id="@+id/inputLayoutEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="32dp"
+            android:hint="@string/login_email"
+            app:startIconDrawable="@drawable/ic_email"
+            android:layout_below="@+id/imgLogo"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="@dimen/login_edit_text_space"
+                android:paddingRight="@dimen/login_edit_text_space"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/LoginTextInputLayoutStyle"
+            android:id="@+id/inputLayoutPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/login_password"
+            app:startIconDrawable="@drawable/ic_key"
+            app:endIconMode="password_toggle"
+            android:layout_below="@+id/inputLayoutEmail"
+            android:layout_alignStart="@+id/inputLayoutEmail"
+            android:layout_alignEnd="@+id/inputLayoutEmail">
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                android:paddingLeft="@dimen/login_edit_text_space"
+                android:paddingRight="@dimen/login_edit_text_space"
+                android:textColorHint="@android:color/white"
+                android:textSize="@dimen/login_text_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_button_xl_height"
+            android:layout_below="@+id/inputLayoutPassword"
+            android:layout_alignStart="@+id/inputLayoutPassword"
+            android:layout_alignEnd="@+id/inputLayoutPassword"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_ripple_lg"
+            android:text="@string/login_sign_in"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/login_text_xl_size" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnLoginGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_button_xl_height"
+            android:layout_below="@+id/btnLogin"
+            android:layout_alignStart="@+id/btnLogin"
+            android:layout_alignEnd="@+id/btnLogin"
+            android:layout_marginTop="15dp" />
+
+        <Button
+            android:id="@+id/buttonCreateAccount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_button_xl_height"
+            android:layout_below="@+id/btnLoginGoogle"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_ripple"
+            android:text="@string/login_create_account"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/login_text_size" />
+
+        <TextView
+            android:id="@+id/textViewForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonCreateAccount"
+            android:layout_alignStart="@+id/buttonCreateAccount"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="@string/login_forgot_password"
+            android:textColor="@color/colorSecondaryText" />
+    </RelativeLayout>
+</ScrollView>
