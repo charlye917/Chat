@@ -1,11 +1,11 @@
-package com.charlye934.chat.activities
+package com.charlye934.chat
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.charlye934.chat.activities.HomeActivity
 import com.charlye934.chat.utils.goToActivity
-import com.charlye934.chat.R
+import com.charlye934.chat.activities.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class MainEmptyActivity : AppCompatActivity() {
