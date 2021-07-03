@@ -3,7 +3,7 @@
 Elaboracion de un chat con ayuda de Firestore y con ayuda de FirebaseAuth se elaboro el inicio de sesion mendiante cualquier correo electronico, o bien mediante Google, inicio normal o con One Tap
 
 ## Video del funcionamiento de la app
-[![Watch the video]](Chat.mp4)
+![caption](Chat.mp4)
 
 
 
