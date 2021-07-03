@@ -1,4 +1,4 @@
-package com.charlye934.chat.fragment
+package com.charlye934.chat.home.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.FragmentInfoBinding
-import com.charlye934.chat.models.TotalMessagesEvent
+import com.charlye934.chat.home.models.TotalMessagesEvent
 import com.charlye934.chat.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -61,13 +61,13 @@ class InfoFragment : Fragment() {
         binding.textViewInfoName.text = currentUser.displayName?.let { currentUser.displayName } ?: "Name is not avaible"
 
         currentUser.photoUrl?.let {
-            Glide.with(context!!)
+            Glide.with(requireContext())
                 .load(currentUser.photoUrl)
                 .circleCrop()
                 .apply(RequestOptions.overrideOf(200,300))
                 .into(binding.imageViewInfoAvatar)
         } ?: kotlin.run {
-            Glide.with(context!!)
+            Glide.with(requireContext())
                 .load(R.drawable.ic_person)
                 .circleCrop()
                 .apply(RequestOptions.overrideOf(100,300))

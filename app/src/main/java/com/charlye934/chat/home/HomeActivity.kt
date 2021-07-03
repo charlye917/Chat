@@ -1,4 +1,4 @@
-package com.charlye934.chat.activities
+package com.charlye934.chat.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.viewpager2.widget.ViewPager2
-import com.charlye934.chat.adapters.PagerAdapter
-import com.charlye934.chat.fragment.ChatFragment
-import com.charlye934.chat.fragment.InfoFragment
-import com.charlye934.chat.fragment.RatesFragment
+import com.charlye934.chat.home.adapters.PagerAdapter
+import com.charlye934.chat.home.fragment.ChatFragment
+import com.charlye934.chat.home.fragment.InfoFragment
+import com.charlye934.chat.home.fragment.RatesFragment
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.ActivityMainBinding
 import com.charlye934.chat.login.LoginActivity

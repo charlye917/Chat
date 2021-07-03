@@ -11,6 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         app:title="CHARLYE934"
         app:titleTextColor="@android:color/white"
+        android:background="@color/colorPrimary"
         style="@style/HeaderBar"
         android:elevation="4dp"/>
 

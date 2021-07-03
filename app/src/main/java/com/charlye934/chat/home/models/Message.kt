@@ -1,4 +1,4 @@
-package com.charlye934.chat.models
+package com.charlye934.chat.home.models
 
 import java.util.*
 

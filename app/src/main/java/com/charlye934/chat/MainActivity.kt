@@ -3,7 +3,7 @@ package com.charlye934.chat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.charlye934.chat.activities.HomeActivity
+import com.charlye934.chat.home.HomeActivity
 import com.charlye934.chat.utils.goToActivity
 import com.charlye934.chat.login.LoginActivity
 import com.charlye934.chat.utils.FirebaseInstance

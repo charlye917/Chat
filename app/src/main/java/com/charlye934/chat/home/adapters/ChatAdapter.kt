@@ -1,4 +1,4 @@
-package com.charlye934.chat.adapters
+package com.charlye934.chat.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.charlye934.chat.models.Message
+import com.charlye934.chat.home.models.Message
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.FragmentChatItemLeftBinding
 import com.charlye934.chat.databinding.FragmentChatItemRightBinding

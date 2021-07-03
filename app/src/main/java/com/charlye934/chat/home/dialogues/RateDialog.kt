@@ -1,17 +1,15 @@
-package com.charlye934.chat.dialogues
+package com.charlye934.chat.home.dialogues
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.charlye934.chat.R
 import com.charlye934.chat.databinding.DialogRatesBinding
-import com.charlye934.chat.models.NewRateEvent
-import com.charlye934.chat.models.Rates
+import com.charlye934.chat.home.models.NewRateEvent
+import com.charlye934.chat.home.models.Rates
 import com.charlye934.chat.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

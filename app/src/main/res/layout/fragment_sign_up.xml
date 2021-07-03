@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/login_email"
             android:inputType="textEmailAddress"
-            app:endIconMode="clear_text"
             app:startIconDrawable="@drawable/ic_email"
             android:layout_below="@+id/imgLogo"
             android:layout_marginTop="32dp"

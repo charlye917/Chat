@@ -1,7 +1,6 @@
-package com.charlye934.chat.fragment
+package com.charlye934.chat.home.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +9,16 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.charlye934.chat.adapters.RatesAdapter
+import com.charlye934.chat.home.adapters.RatesAdapter
 import com.charlye934.chat.databinding.FragmentRatesBinding
-import com.charlye934.chat.dialogues.RateDialog
-import com.charlye934.chat.models.NewRateEvent
-import com.charlye934.chat.models.Rates
+import com.charlye934.chat.home.dialogues.RateDialog
+import com.charlye934.chat.home.models.NewRateEvent
+import com.charlye934.chat.home.models.Rates
 import com.charlye934.chat.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import io.reactivex.rxjava3.disposables.Disposable
-import java.util.*
 import java.util.EventListener
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -100,7 +98,7 @@ class RatesFragment : Fragment() {
 
     private fun setUpFab(){
         binding.fabRatting.setOnClickListener {
-            RateDialog().show(fragmentManager!!, "")
+            RateDialog().show(requireFragmentManager(), "")
         }
     }
 

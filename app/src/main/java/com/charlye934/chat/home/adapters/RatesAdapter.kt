@@ -1,4 +1,4 @@
-package com.charlye934.chat.adapters
+package com.charlye934.chat.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.charlye934.chat.R
-import com.charlye934.chat.databinding.FragmentRatesBinding
 import com.charlye934.chat.databinding.FragmentRatesItemBinding
-import com.charlye934.chat.models.Message
-import com.charlye934.chat.models.Rates
+import com.charlye934.chat.home.models.Rates
 import java.text.SimpleDateFormat
 
 class RatesAdapter(private val items: List<Rates>, private val  context:Context) : RecyclerView.Adapter<RatesAdapter.ViewHolder>() {

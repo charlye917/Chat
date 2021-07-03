@@ -1,20 +1,17 @@
-package com.charlye934.chat.fragment
+package com.charlye934.chat.home.fragment
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.adapters.ToolbarBindingAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.charlye934.chat.adapters.ChatAdapter
-import com.charlye934.chat.models.Message
-import com.charlye934.chat.R
+import com.charlye934.chat.home.adapters.ChatAdapter
 import com.charlye934.chat.databinding.FragmentChatBinding
-import com.charlye934.chat.models.TotalMessagesEvent
+import com.charlye934.chat.home.models.Message
+import com.charlye934.chat.home.models.TotalMessagesEvent
 import com.charlye934.chat.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -67,7 +64,7 @@ class ChatFragment : Fragment() {
 
     private fun setUpRecycerView(){
         val layoutManagerChat = LinearLayoutManager(context)
-        adapterChat = ChatAdapter(messageList, currentUser.uid, context!!)
+        adapterChat = ChatAdapter(messageList, currentUser.uid, requireContext())
 
         binding.recyclerVew.apply {
             setHasFixedSize(true)

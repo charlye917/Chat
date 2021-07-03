@@ -1,15 +1,16 @@
 package com.charlye934.chat.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.charlye934.chat.databinding.ActivityLoginBinding
 import com.charlye934.chat.R
-import com.charlye934.chat.activities.ForgotPasswordActivity
-import com.charlye934.chat.activities.HomeActivity
-import com.charlye934.chat.activities.SignUpActivity
+import com.charlye934.chat.home.HomeActivity
+import com.charlye934.chat.login.fragment.ForgotPasswordFragment
 import com.charlye934.chat.login.fragment.LoginFragment
+import com.charlye934.chat.login.fragment.SignUpFragment
 import com.charlye934.chat.login.listener.LoginListener
 import com.charlye934.chat.utils.goToActivity
 
@@ -23,15 +24,22 @@ class LoginActivity : AppCompatActivity(), LoginListener{
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        goToLogin()
+    }
+
+    override fun goToLogin() {
         changeFragment(LoginFragment.newInstance(), LoginFragment.TAG!!)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     override fun goToForgotPassword() {
-        goToActivity<ForgotPasswordActivity>()
+        changeFragment(ForgotPasswordFragment.newInstances(), ForgotPasswordFragment.TAG!!)
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
     }
 
     override fun goToSignUp() {
-        goToActivity<SignUpActivity>()
+        changeFragment(SignUpFragment.newInstance(), SignUpFragment.TAG!!)
+        overridePendingTransition(android.R.anim.fade_out, android.R.anim.fade_in)
     }
 
     override fun goToHome() {
@@ -48,5 +56,18 @@ class LoginActivity : AppCompatActivity(), LoginListener{
             .commit()
 
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+    }
+
+    @SuppressLint("ResourceType")
+    override fun onBackPressed() {
+
+        val fragment = supportFragmentManager.findFragmentById(R.id.frameActivityLogin)
+        when(fragment){
+            is LoginFragment ->{
+                finish()
+            }
+            else -> { super.onBackPressed() }
+        }
+
     }
 }

@@ -60,7 +60,7 @@ class LoginFragment : Fragment() {
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
-                    .setServerClientId("PRUEBA")
+                    .setServerClientId(getString(R.string.default_web_client_id))
                     .setFilterByAuthorizedAccounts(true)
                     .build()
             )
@@ -78,11 +78,11 @@ class LoginFragment : Fragment() {
                         null, 0,0,0,null
                     )
                 }catch (e: IntentSender.SendIntentException){
-                    Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                    Log.e("__tag", "Couldn't start One Tap UI: ${e.localizedMessage}")
                 }
             }
             .addOnFailureListener{ e ->
-                Log.d(TAG, e.localizedMessage)
+                Log.d("__tag", e.localizedMessage)
             }
     }
 
@@ -158,49 +158,49 @@ class LoginFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when(requestCode){
-            REQ_VAL_TAP ->{
-                try {
-                    val credential = oneTapClient.getSignInCredentialFromIntent(data)
-                    val idToken = credential.googleIdToken
-                    when {
-                        idToken != null -> {
-                            loginByGoogleAndFirease(idToken)
-                        }
-                        else -> {
-                            Log.d("__tag", "No ID token or password!")
-                        }
-                    }
-                }catch (e: ApiException){
-                        when (e.statusCode) {
-                            CommonStatusCodes.CANCELED -> {
-                                Log.d("__tag", "One-tap dialog was closed.")
-                                // Don't re-prompt the user.
-                                //showOneTapUI = false
-                            }
-                            CommonStatusCodes.NETWORK_ERROR -> {
-                                Log.d("__tag", "One-tap encountered a network error.")
-                                // Try again or just ignore.
-                            }
-                            else -> {
-                                Log.d("__tag", "Couldn't get credential from result." +
-                                        " (${e.localizedMessage})")
-                            }
-                        }
+        when (requestCode) {
+            REQ_VAL_TAP -> { resultOneTap(data!!) }
+
+            RC_CODE_SIIGN_IN -> { resultSignIn(data!!) }
+        }
+    }
+
+    private fun resultOneTap(data:Intent){
+        try {
+            val credential = oneTapClient.getSignInCredentialFromIntent(data)
+            val idToken = credential.googleIdToken
+            when {
+                idToken != null -> {
+                    loginByGoogleAndFirease(idToken)
+                }
+                else -> {
+                    Log.d("__tag", "No ID token or password!")
                 }
             }
-
-            RC_CODE_SIIGN_IN ->{
-                val credential = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-                try{
-                    val account = credential.getResult(ApiException::class.java)
-                    loginByGoogleAndFirease(account!!.idToken!!)
-                }catch (e: ApiException){
-                    Log.d("__TAG", "Google sign in failed ${e.message}")
+        } catch (e: ApiException) {
+            when (e.statusCode) {
+                CommonStatusCodes.CANCELED -> {
+                    Log.d("__tag", "One-tap dialog was closed.")
+                }
+                CommonStatusCodes.NETWORK_ERROR -> {
+                    Log.d("__tag", "One-tap encountered a network error.")
+                }
+                else -> {
+                    Log.d("__tag", "Couldn't get credential from result." + " (${e.localizedMessage})")
                 }
             }
-            }
+        }
+    }
+
+    private fun resultSignIn(data: Intent){
+        val credential = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+        try {
+            val account = credential.getResult(ApiException::class.java)
+            loginByGoogleAndFirease(account!!.idToken!!)
+        } catch (e: ApiException) {
+            Log.d("__TAG", "Google sign in failed ${e.message}")
+        }
     }
 
     override fun onAttach(context: Context) {

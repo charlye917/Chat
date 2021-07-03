@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.charlye934.chat.fragment.InfoFragment">
+    tools:context=".home.fragment.InfoFragment">
 
     <TextView
         android:id="@+id/textViewInfoEmail"

@@ -25,8 +25,9 @@
         <item name="errorEnabled">true</item>
     </style>
 
-    <style name="HeaderBar">
-        <item name="android:background">@color/colorPrimaryDark</item>
+    <style name="HeaderBar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:itemBackground">#fff</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
