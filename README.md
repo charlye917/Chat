@@ -1,4 +1,4 @@
-# Chat con Google One Tap, Firestore, LoginAuth
+# Chat con Google One Tap, Firestore, LoginAuth y autenticacion con Biometrix
 
 Elaboracion de un chat con ayuda de Firestore y con ayuda de FirebaseAuth se elaboro el inicio de sesion mendiante cualquier correo electronico, o bien mediante Google, inicio normal o con One Tap
 
